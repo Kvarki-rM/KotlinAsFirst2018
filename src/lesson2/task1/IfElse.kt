@@ -2,6 +2,8 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
+import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.sqrt
 
@@ -62,7 +64,14 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+
+fun ageDescription(age: Int): String = when {
+    age == 111 -> "$age лет"
+    age%10 == 1 -> "$age год"
+    age in 12..14 -> "$age лет"
+    age%10 in 2..4 -> "$age года"
+    else ->"$age лет"
+}
 
 /**
  * Простая
@@ -73,7 +82,17 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double):Double {
+    var s1 = t1*v1
+    var s2 = t2*v2
+    var s3 = t3*v3
+    var HalfWay = (s1+s2+s3)/2
+
+    if (s1 >= s2+s3)  return  (HalfWay/v1)
+    if (s1+s2> s3)  return  (t1 + (HalfWay-s1)/v2)
+    else  return  (t1+t2 + (HalfWay-s1-s2)/v3)
+}
+
 
 /**
  * Простая
@@ -86,7 +105,15 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    if ((kingX == rookX1)||(kingY == rookY1)){
+        if ((kingX == rookX2)||(kingY == rookY2))return 3
+        else return 1}
+    if ((kingX == rookX2)||(kingY == rookY2)) return 2
+    else {
+        return 0
+    }
+}
 
 /**
  * Простая
@@ -100,17 +127,44 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+    if ((kingX == rookX)||(kingY == rookY))
+    {if (abs(bishopX-kingX) == abs(bishopY-kingY)) return 3
+    else return 1 }
+        if (abs(bishopX-kingX) == abs(bishopY-kingY)) return 2
+        else return 0
+}
 
-/**
- * Простая
- *
- * Треугольник задан длинами своих сторон a, b, c.
- * Проверить, является ли данный треугольник остроугольным (вернуть 0),
- * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
- * Если такой треугольник не существует, вернуть -1.
- */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+    /**
+     * Простая
+     *
+     * Треугольник задан длинами своих сторон a, b, c.
+     * Проверить, является ли данный треугольник остроугольным (вернуть 0),
+     * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
+     * Если такой треугольник не существует, вернуть -1.
+     */
+
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    if ((a + b <= c) || (c + b <= a) || (a + c <= b)) return -1;
+    if (a >= b && a >= c) {
+        if (sqr(a) > (sqr(c) + sqr(b))) return 2
+        if (sqr(a) < (sqr(c) + sqr(b))) return 0
+        if (sqr(a) == (sqr(c) + sqr(b))) return 1
+    }
+
+    if (b >= a && b >= c) {
+        if (sqr(b) > (sqr(c) + sqr(a))) return 2
+        if (sqr(b) < (sqr(c) + sqr(a))) return 0
+        if (sqr(b) == (sqr(c) + sqr(a))) return 1
+    }
+
+    if (c >= b && c >= a) {
+        if (sqr(c) > (sqr(a) + sqr(b))) return 2
+        if (sqr(c) < (sqr(a) + sqr(b))) return 0
+        if (sqr(c) == (sqr(b) + sqr(a))) return 1
+    }
+    return -1
+}
 
 /**
  * Средняя
@@ -120,4 +174,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if (a in c..d)
+       {if (b in c..d) return abs(a-b)
+       if (b !in c..d) return  abs(a-d)
+       else return -1}
+    if (b in c..d) return abs(c-b)
+     if (a<c && b>d) return abs(c-d)
+    else return -1
+}
