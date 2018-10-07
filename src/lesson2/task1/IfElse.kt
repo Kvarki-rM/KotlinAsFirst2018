@@ -66,9 +66,8 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 
 fun ageDescription(age: Int): String = when {
-    age == 111 -> "$age лет"
+    (age % 100 in 11..19) || (age % 10 >= 5)||(age % 10 == 0) -> "$age лет"
     age%10 == 1 -> "$age год"
-    age in 12..14 -> "$age лет"
     age%10 in 2..4 -> "$age года"
     else ->"$age лет"
 }
@@ -82,16 +81,7 @@ fun ageDescription(age: Int): String = when {
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double):Double {
-    var s1 = t1*v1
-    var s2 = t2*v2
-    var s3 = t3*v3
-    var HalfWay = (s1+s2+s3)/2
-
-    if (s1 >= s2+s3)  return  (HalfWay/v1)
-    if (s1+s2> s3)  return  (t1 + (HalfWay-s1)/v2)
-    else  return  (t1+t2 + (HalfWay-s1-s2)/v3)
-}
+                   t3: Double, v3: Double):Double = TODO()
 
 
 /**
