@@ -63,10 +63,8 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    if ((a <= r && b <= s) || (b <= r && a <= s) || (b <= r && c <= s) || (c <= r && b <= s) || (a <= r && c <= s) || (c <= r && a <= s)) return true
-    return false
-}
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = min(min(a, b), c) <= min(s, r) &&
+a + b + c - min(min(a, b), c) - max(max(a, b), c) <= max(s, r)
 
 /*
 var minWay = min(r,s)
