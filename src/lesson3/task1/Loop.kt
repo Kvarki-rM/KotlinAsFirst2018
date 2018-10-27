@@ -2,7 +2,6 @@
 
 package lesson3.task1
 
-import java.lang.Math.pow
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -14,9 +13,7 @@ import kotlin.math.sqrt
  */
 fun factorial(n: Int): Double {
     var result = 1.0
-    for (i in 1..n) {
-        result = result * i // Please do not fix in master
-    }
+    for (i in 1..n) result *= i
     return result
 }
 
@@ -29,9 +26,7 @@ fun isPrime(n: Int): Boolean {
     if (n < 2) return false
     if (n == 2) return true
     if (n % 2 == 0) return false
-    for (m in 3..sqrt(n.toDouble()).toInt() step 2) {
-        if (n % m == 0) return false
-    }
+    for (m in 3..sqrt(n.toDouble()).toInt() step 2) if (n % m == 0) return false
     return true
 }
 
@@ -74,8 +69,8 @@ fun digitNumber(n: Int): Int {
     var count = 0
     var number = abs(n)
     do {
-        count = count + 1
-        number = number / 10
+        count += 1
+        number /= 10
     } while (number > 0)
     return count
 }
@@ -91,7 +86,7 @@ fun fib(n: Int): Int {
     var fib1 = 1
     var fib2 = 1
     for (i in 3..n) {
-        fib2 = fib1 + fib2
+        fib2 += fib1
         fib1 = fib2 - fib1
     }
     return fib2
@@ -185,7 +180,7 @@ fun revert(n: Int): Int {
     var result = 0
     while (length > 0) {
         result = result * 10 + length % 10
-        length = length / 10
+        length /= 10
     }
     return result
 }
@@ -235,8 +230,8 @@ fun squareSequenceDigit(n: Int): Int {
             result = (actualSQR / 10.0.pow(length - (n - count)) % 10).toInt()
             break
         } else {
-            count = count + length
-            step = step + 1
+            count += length
+            step += 1
         }
     }
     return result
@@ -260,14 +255,14 @@ fun fibSequenceDigit(n: Int): Int {
     var result = 0
 
     while (count != n) {
-        actualNum  = fib(step)
-        length = digitNumber(actualNum )
+        actualNum = fib(step)
+        length = digitNumber(actualNum)
         if (n - count <= length) {
-            result = (actualNum  / 10.0.pow(length - (n - count)) % 10).toInt()
+            result = (actualNum / 10.0.pow(length - (n - count)) % 10).toInt()
             break
         } else {
-            count = count + length
-            step = step + 1
+            count += length
+            step += 1
         }
     }
     return result
