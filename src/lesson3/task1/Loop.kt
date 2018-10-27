@@ -1,6 +1,10 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
+import java.lang.Math.pow
+import kotlin.math.abs
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 /**
@@ -38,7 +42,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -66,7 +70,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var count = 0
+    var number = abs(n)
+    do {
+        count = count + 1
+        number = number / 10
+    } while (number > 0)
+    return count
+}
 
 /**
  * Простая
@@ -74,7 +86,16 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    if ((n == 1) || (n == 2)) return 1
+    var fib1 = 1
+    var fib2 = 1
+    for (i in 3..n) {
+        fib2 = fib1 + fib2
+        fib1 = fib2 - fib1
+    }
+    return fib2
+}
 
 /**
  * Простая
@@ -159,7 +180,15 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var length = n
+    var result = 0
+    while (length > 0) {
+        result = result * 10 + length % 10
+        length = length / 10
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -170,7 +199,7 @@ fun revert(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean = revert(n) == n
 
 /**
  * Средняя
@@ -191,7 +220,27 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+
+    var actualSQR = 0
+    var length = 0
+    var count = 0
+    var step = 1
+    var result = 0
+
+    while (count != n) {
+        actualSQR = step * step
+        length = digitNumber(actualSQR)
+        if (n - count <= length) {
+            result = (actualSQR / 10.0.pow(length - (n - count)) % 10).toInt()
+            break
+        } else {
+            count = count + length
+            step = step + 1
+        }
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -202,4 +251,24 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+
+    var actualNum = 0
+    var length = 0
+    var count = 0
+    var step = 1
+    var result = 0
+
+    while (count != n) {
+        actualNum  = fib(step)
+        length = digitNumber(actualNum )
+        if (n - count <= length) {
+            result = (actualNum  / 10.0.pow(length - (n - count)) % 10).toInt()
+            break
+        } else {
+            count = count + length
+            step = step + 1
+        }
+    }
+    return result
+}
