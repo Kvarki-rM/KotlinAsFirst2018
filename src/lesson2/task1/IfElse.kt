@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -66,10 +67,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 
 fun ageDescription(age: Int): String = when {
-    (age % 100 in 11..19) || (age % 10 >= 5)||(age % 10 == 0) -> "$age лет"
-    age%10 == 1 -> "$age год"
-    age%10 in 2..4 -> "$age года"
-    else ->"$age лет"
+    (age % 100 in 11..19) || (age % 10 >= 5) || (age % 10 == 0) -> "$age лет"
+    age % 10 == 1 -> "$age год"
+    age % 10 in 2..4 -> "$age года"
+    else -> "$age лет"
 }
 
 /**
@@ -81,7 +82,7 @@ fun ageDescription(age: Int): String = when {
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double):Double = TODO()
+                   t3: Double, v3: Double): Double = TODO()
 
 
 /**
@@ -96,10 +97,11 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    if ((kingX == rookX1)||(kingY == rookY1)){
-        if ((kingX == rookX2)||(kingY == rookY2))return 3
-        else return 1}
-    if ((kingX == rookX2)||(kingY == rookY2)) return 2
+    if (kingX == rookX1 || kingY == rookY1) {
+        if (kingX == rookX2 || kingY == rookY2) return 3
+        else return 1
+    }
+    if (kingX == rookX2 || kingY == rookY2) return 2
     else {
         return 0
     }
@@ -118,21 +120,22 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    if ((kingX == rookX)||(kingY == rookY))
-    {if (abs(bishopX-kingX) == abs(bishopY-kingY)) return 3
-    else return 1 }
-        if (abs(bishopX-kingX) == abs(bishopY-kingY)) return 2
-        else return 0
+    if (kingX == rookX || kingY == rookY) {
+        if (abs(bishopX - kingX) == abs(bishopY - kingY)) return 3
+        else return 1
+    }
+    if (abs(bishopX - kingX) == abs(bishopY - kingY)) return 2
+    else return 0
 }
 
-    /**
-     * Простая
-     *
-     * Треугольник задан длинами своих сторон a, b, c.
-     * Проверить, является ли данный треугольник остроугольным (вернуть 0),
-     * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
-     * Если такой треугольник не существует, вернуть -1.
-     */
+/**
+ * Простая
+ *
+ * Треугольник задан длинами своих сторон a, b, c.
+ * Проверить, является ли данный треугольник остроугольным (вернуть 0),
+ * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
+ * Если такой треугольник не существует, вернуть -1.
+ */
 
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     if ((a + b <= c) || (c + b <= a) || (a + c <= b)) return -1;
@@ -165,11 +168,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if (a in c..d)
-       {if (b in c..d) return abs(a-b)
-       if (b !in c..d) return  abs(a-d)
-       else return -1}
-    if (b in c..d) return abs(c-b)
-     if (a<c && b>d) return abs(c-d)
+    if (a in c..d) {
+        if (b in c..d) return abs(a - b)
+        if (b !in c..d) return abs(a - d)
+        else return -1
+    }
+    if (b in c..d) return abs(c - b)
+    if (a < c && b > d) return abs(c - d)
     else return -1
 }
