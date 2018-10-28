@@ -127,7 +127,10 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double {
+    if (list.isEmpty()) return 0.0
+    return list.sum() / list.size
+}
 
 /**
  * Средняя
@@ -137,7 +140,13 @@ fun mean(list: List<Double>): Double = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    if (list.isEmpty()) return list
+    val medium = mean(list)
+    for (i in 0 until list.size)
+        list[i] -= medium
+    return list
+}
 
 /**
  * Средняя
@@ -146,7 +155,12 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
-fun times(a: List<Double>, b: List<Double>): Double = TODO()
+fun times(a: List<Double>, b: List<Double>): Double {
+    if (a.isEmpty()) return 0.0
+    var sum = 0.0
+    for (i in 0 until a.size) sum += a[i] * b[i]
+    return sum
+}
 
 /**
  * Средняя
@@ -168,7 +182,12 @@ fun polynom(p: List<Double>, x: Double): Double = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
+fun accumulate(list: MutableList<Double>): MutableList<Double> {
+    if (list.isEmpty()) return list
+    for (i in 1 until list.size)
+        list[i] += list[i - 1]
+    return list
+}
 
 /**
  * Средняя
@@ -177,7 +196,18 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    val result = mutableListOf<Int>()
+    var n = n
+    while (n != 1) for (i in 2..(n + 1)) {
+        if (n % i == 0) {
+            n /= i
+            result.add(i)
+            break
+        }
+    }
+    return result.sorted()
+}
 
 /**
  * Сложная
@@ -186,7 +216,10 @@ fun factorize(n: Int): List<Int> = TODO()
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String {
+    if (n == Int.MAX_VALUE) return n.toString()
+    return factorize(n).joinToString(separator = "*")
+}
 
 /**
  * Средняя
@@ -244,4 +277,98 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    val listN: MutableList<String> = mutableListOf()
+    fun units(n: Int): String =
+            when (n % 10) {
+                3 -> "три"
+                4 -> "четыре"
+                5 -> "пять"
+                6 -> "шесть"
+                7 -> "семь"
+                8 -> "восемь"
+                9 -> "девять"
+                else -> ""
+            }
+
+    fun womans(n: Int): String =
+            when (n / 1000 % 10) {
+                1 -> ("одна")
+                2 -> ("две")
+                else -> ""
+            }
+
+    fun mans(n: Int): String =
+            when (n % 10) {
+                1 -> "один"
+                2 -> "два"
+                else -> ""
+            }
+
+
+    fun tens(n: Int): String =
+            when (n % 100) {
+                10 -> "десять"
+                11 -> "одиннадцать"
+                12 -> "двенадцать"
+                13 -> "тринадцать"
+                14 -> "четырнадцать"
+                15 -> "пятнадцать"
+                16 -> "шестнадцать"
+                17 -> "семнадцать"
+                18 -> "восемнадцать"
+                19 -> "девятнадцать"
+                in 20..29 -> "двадцать"
+                in 30..39 -> "тридцать"
+                in 40..49 -> "сорок"
+                in 50..59 -> "пятьдесят"
+                in 60..69 -> "шестьдесят"
+                in 70..79 -> "семьдесят"
+                in 80..89 -> "восемьдесят"
+                in 90..99 -> "девяносто"
+                else -> ""
+            }
+
+    fun hundreds(n: Int): String =
+            when (n / 100 % 10) {
+                1 -> "сто"
+                2 -> "двести"
+                3 -> "триста"
+                4 -> "четыреста"
+                5 -> "пятьсот"
+                6 -> "шестьсот"
+                7 -> "семьсот"
+                8 -> "восемьсот"
+                9 -> "девятьсот"
+                else -> ""
+            }
+
+    fun thousand(n: Int): String =
+            when {
+                n / 1000 == 0 -> ""
+                ((n % 100 in 11..20) || (n % 10 >= 5) || ((n / 1000) % 10 == 0)) -> "тысяч"
+                ((n / 1000) % 10) == 1 -> "тысяча"
+                else -> "тысячи"
+            }
+
+    val h = n / 1000
+    val d = n % 1000
+
+    if (n > 1000) {
+        listN.add(hundreds(h))
+        listN.add(tens(h))
+        listN.add(womans(n))
+        listN.add(thousand(n))
+        listN.add(hundreds(d))
+        listN.add(tens(d))
+        listN.add(units(n))
+        listN.add(mans(n))
+    } else if ((n < 1000) && (n > 19)) {
+        listN.add(hundreds(d))
+        listN.add(tens(d))
+        listN.add(units(n))
+        listN.add(mans(n))
+    } else listN.add(tens(d))
+
+    return listN.filter { it != "" }.joinToString(separator = " ")
+}
