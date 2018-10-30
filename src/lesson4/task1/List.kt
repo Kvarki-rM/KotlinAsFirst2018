@@ -368,6 +368,8 @@ fun russian(n: Int): String {
         listN.add(tens(d))
         listN.add(units(n))
         listN.add(mans(n))
+    } else if (n < 3) {
+        listN.add(mans(n))
     } else listN.add(tens(d))
 
     return listN.filter { it != "" }.joinToString(separator = " ")
