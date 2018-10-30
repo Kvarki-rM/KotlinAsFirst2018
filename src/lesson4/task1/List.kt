@@ -363,7 +363,7 @@ fun russian(n: Int): String {
         listN.add(tens(d))
         listN.add(units(n))
         listN.add(mans(n))
-    } else if ((n < 1000) && (n > 19)) || ( n < 3 ) {
+    } else if ((n < 1000) && (n > 19)) {
         listN.add(hundreds(d))
         listN.add(tens(d))
         listN.add(units(n))
