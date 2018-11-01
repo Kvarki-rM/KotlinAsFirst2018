@@ -359,6 +359,7 @@ fun russian(n: Int): String {
         listN.add(tens(h))
         if ((h % 100 / 10) > 1)
             listN.add(units(h))
+        if ((h % 100) !in 10..19)
         listN.add(womans(n))
         listN.add(thousand(h))
         listN.add(hundreds(d))
