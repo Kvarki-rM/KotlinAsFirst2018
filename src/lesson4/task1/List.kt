@@ -357,10 +357,10 @@ fun russian(n: Int): String {
     if (n > 1000) {
         listN.add(hundreds(h))
         listN.add(tens(h))
-        if ((h % 100 / 10) > 1)
+        if ((h % 100) !in 10..19) {
             listN.add(units(h))
-        if ((h % 100) !in 10..19)
-        listN.add(womans(n))
+            listN.add(womans(n))
+        }
         listN.add(thousand(h))
         listN.add(hundreds(d))
         listN.add(tens(d))
@@ -370,9 +370,10 @@ fun russian(n: Int): String {
     } else if ((n < 1000) && (n > 19)) {
         listN.add(hundreds(d))
         listN.add(tens(d))
-        if ((n % 100) !in 10..19)
+        if ((n % 100) !in 10..19) {
             listN.add(units(d))
-        listN.add(mans(n))
+            listN.add(mans(n))
+        }
     } else if (n < 3) {
         listN.add(mans(n))
     } else listN.add(tens(d))
