@@ -345,9 +345,9 @@ fun russian(n: Int): String {
 
     fun thousand(n: Int): String =
             when {
-                n / 1000 == 0 -> ""
-                ((n % 100 in 11..20) || (n % 10 >= 5) || ((n / 1000) % 10 == 0)) -> "тысяч"
-                ((n / 1000) % 10) == 1 -> "тысяча"
+                n == 0 -> ""
+                ((n % 100 in 5..20) || (n % 10 > 4) || (n % 10 == 0)) -> "тысяч"
+                (n % 10) == 1 -> "тысяча"
                 else -> "тысячи"
             }
 
@@ -357,9 +357,10 @@ fun russian(n: Int): String {
     if (n > 1000) {
         listN.add(hundreds(h))
         listN.add(tens(h))
-        listN.add(units(h))
+        if ((n % 100 / 10) > 1)
+            listN.add(units(h))
         listN.add(womans(n))
-        listN.add(thousand(n))
+        listN.add(thousand(h))
         listN.add(hundreds(d))
         listN.add(tens(d))
         listN.add(units(n))
