@@ -98,13 +98,11 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
     if (kingX == rookX1 || kingY == rookY1) {
-        if (kingX == rookX2 || kingY == rookY2) return 3
-        else return 1
+        return if (kingX == rookX2 || kingY == rookY2) 3
+        else 1
     }
-    if (kingX == rookX2 || kingY == rookY2) return 2
-    else {
-        return 0
-    }
+    return if (kingX == rookX2 || kingY == rookY2) 2
+    else 0
 }
 
 /**
@@ -121,11 +119,11 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
     if (kingX == rookX || kingY == rookY) {
-        if (abs(bishopX - kingX) == abs(bishopY - kingY)) return 3
-        else return 1
+        return if (abs(bishopX - kingX) == abs(bishopY - kingY)) 3
+        else 1
     }
-    if (abs(bishopX - kingX) == abs(bishopY - kingY)) return 2
-    else return 0
+    return if (abs(bishopX - kingX) == abs(bishopY - kingY)) 2
+    else 0
 }
 
 /**
@@ -138,7 +136,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if ((a + b <= c) || (c + b <= a) || (a + c <= b)) return -1;
+    if ((a + b <= c) || (c + b <= a) || (a + c <= b)) return -1
     if (a >= b && a >= c) {
         if (sqr(a) > (sqr(c) + sqr(b))) return 2
         if (sqr(a) < (sqr(c) + sqr(b))) return 0
@@ -170,10 +168,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     if (a in c..d) {
         if (b in c..d) return abs(a - b)
-        if (b !in c..d) return abs(a - d)
-        else return -1
+        return if (b !in c..d) abs(a - d)
+        else -1
     }
     if (b in c..d) return abs(c - b)
-    if (a < c && b > d) return abs(c - d)
-    else return -1
+    return if (a < c && b > d) abs(c - d)
+    else -1
 }

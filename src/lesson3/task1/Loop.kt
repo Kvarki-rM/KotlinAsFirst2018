@@ -2,6 +2,8 @@
 
 package lesson3.task1
 
+import sun.security.provider.certpath.BuildStep
+import sun.security.util.Length
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -69,7 +71,7 @@ fun digitNumber(n: Int): Int {
     var count = 0
     var number = abs(n)
     do {
-        count += 1
+        count++
         number /= 10
     } while (number > 0)
     return count
@@ -215,6 +217,15 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
+fun square(x: Int, y: Int): Int {
+    var multiplier = x
+    if (y == 0) return 1
+    for (i in 1..(y - 1)) {
+        multiplier *= x
+    }
+    return multiplier
+}
+
 fun squareSequenceDigit(n: Int): Int {
 
     var actualSQR = 0
@@ -223,20 +234,27 @@ fun squareSequenceDigit(n: Int): Int {
     var step = 1
     var result = 0
 
+
     while (count != n) {
-        actualSQR = step * step
+        actualSQR = square(step, 2)
         length = digitNumber(actualSQR)
         if (n - count <= length) {
-            result = (actualSQR / 10.0.pow(length - (n - count)) % 10).toInt()
+            result = actualSQR / square(10, ((length - n + count))) % 10
             break
         } else {
             count += length
-            step += 1
+            step++
         }
     }
+
     return result
 }
 
+/**
+ *  result = actualSQR / square(10, y = (length - (n - count))) % 10
+ *  result = (actualSQR / 10.0.pow(length - (n - count)) % 10).toInt()
+ *  result = actualSQR / square(x = 10, y = 0) % 10
+ */
 /**
  * Сложная
  *
@@ -258,11 +276,11 @@ fun fibSequenceDigit(n: Int): Int {
         actualNum = fib(step)
         length = digitNumber(actualNum)
         if (n - count <= length) {
-            result = (actualNum / 10.0.pow(length - (n - count)) % 10).toInt()
+            result = actualNum / square(10, (length - n + count)) % 10
             break
         } else {
             count += length
-            step += 1
+            step++
         }
     }
     return result
