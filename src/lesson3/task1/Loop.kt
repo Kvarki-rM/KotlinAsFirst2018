@@ -228,15 +228,13 @@ fun square(x: Int, y: Int): Int {
 
 fun squareSequenceDigit(n: Int): Int {
 
-    var actualSQR = 0
     var length = 0
     var count = 0
     var step = 1
     var result = 0
 
-
     while (count != n) {
-        actualSQR = square(step, 2)
+        var actualSQR = square(step, 2)
         length = digitNumber(actualSQR)
         if (n - count <= length) {
             result = actualSQR / square(10, ((length - n + count))) % 10
@@ -266,14 +264,13 @@ fun squareSequenceDigit(n: Int): Int {
  */
 fun fibSequenceDigit(n: Int): Int {
 
-    var actualNum = 0
     var length = 0
     var count = 0
     var step = 1
     var result = 0
 
     while (count != n) {
-        actualNum = fib(step)
+        var actualNum = fib(step)
         length = digitNumber(actualNum)
         if (n - count <= length) {
             result = actualNum / square(10, (length - n + count)) % 10

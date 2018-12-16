@@ -2,6 +2,11 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+import kotlin.IllegalArgumentException
+import kotlin.math.max
+
+
 /**
  * Пример
  *
@@ -49,12 +54,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -71,7 +74,16 @@ fun main(args: Array<String>) {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября",
+        "октября", "ноября", "декабря")
+
+fun dateStrToDigit(str: String): String {
+    val list = str.split(" ")
+    if (list.size == 3 && list[1] in months)
+        if (daysInMonth(months.indexOf(list[1]) + 1, list[2].toInt()) >= list[0].toInt())
+            return String.format("%02d.%02d.%04d", list[0].toInt(), months.indexOf(list[1]) + 1, list[2].toInt())
+    return ""
+}
 
 /**
  * Средняя
@@ -83,7 +95,13 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val list = digital.split(".")
+    if (list[1].toIntOrNull() != null && list.size == 3 && list[1].toInt() in 1..12)
+        if (daysInMonth(months.indexOf(list[1]) + 1, list[2].toInt()) >= list[0].toInt())
+            return "${list[0].toInt()} ${months[list[1].toInt() - 1]} ${list[2].toInt()}"
+    return ""
+}
 
 /**
  * Средняя
@@ -132,7 +150,27 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    if (expression == "") throw IllegalArgumentException()
+    val list = expression.split(" ")
+    for (symbol in list[0]) if (!symbol.isDigit()) throw IllegalArgumentException()
+
+    if ((list.size % 2 == 0) || (list[0].toIntOrNull() == null)) throw IllegalArgumentException()
+
+    var ans = list[0].toInt()
+    for (i in 1..list.size / 2) {
+        if (list[i * 2 - 1].toIntOrNull() != null) throw IllegalArgumentException()
+        if (list[i * 2].toIntOrNull() == null) throw IllegalArgumentException()
+        for (symbol in list[i * 2]) if (!symbol.isDigit()) throw IllegalArgumentException()
+
+        when {
+            list[i * 2 - 1] == "+" -> ans += list[i * 2].toInt()
+            list[i * 2 - 1] == "-" -> ans -= list[i * 2].toInt()
+            else -> throw IllegalArgumentException()
+        }
+    }
+    return ans
+}
 
 /**
  * Сложная
@@ -143,7 +181,17 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun length(x: String): Int = x.split("").size - 2
+
+fun firstDuplicateIndex(str: String): Int {
+    val list = str.split(" ")
+    var index = 0
+    for (i in 0..list.size - 2) {
+        if (list[i].toLowerCase() == list[i + 1].toLowerCase()) return index else index += length(list[i]) + 1
+    }
+    return -1
+}
+
 
 /**
  * Сложная

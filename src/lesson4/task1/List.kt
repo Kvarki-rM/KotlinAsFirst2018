@@ -198,10 +198,10 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  */
 fun factorize(n: Int): List<Int> {
     val result = mutableListOf<Int>()
-    var n = n
-    while (n != 1) for (i in 2..(n + 1)) {
-        if (n % i == 0) {
-            n /= i
+    var z = n
+    while (z != 1) for (i in 2..(z + 1)) {
+        if (z % i == 0) {
+            z /= i
             result.add(i)
             break
         }
@@ -277,79 +277,80 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
+fun units(n: Int): String =
+        when (n % 10) {
+            3 -> "три"
+            4 -> "четыре"
+            5 -> "пять"
+            6 -> "шесть"
+            7 -> "семь"
+            8 -> "восемь"
+            9 -> "девять"
+            else -> ""
+        }
+
+fun womans(n: Int): String =
+        when (n / 1000 % 10) {
+            1 -> ("одна")
+            2 -> ("две")
+            else -> ""
+        }
+
+fun mans(n: Int): String =
+        when (n % 10) {
+            1 -> "один"
+            2 -> "два"
+            else -> ""
+        }
+
+
+fun tens(n: Int): String =
+        when (n % 100) {
+            10 -> "десять"
+            11 -> "одиннадцать"
+            12 -> "двенадцать"
+            13 -> "тринадцать"
+            14 -> "четырнадцать"
+            15 -> "пятнадцать"
+            16 -> "шестнадцать"
+            17 -> "семнадцать"
+            18 -> "восемнадцать"
+            19 -> "девятнадцать"
+            in 20..29 -> "двадцать"
+            in 30..39 -> "тридцать"
+            in 40..49 -> "сорок"
+            in 50..59 -> "пятьдесят"
+            in 60..69 -> "шестьдесят"
+            in 70..79 -> "семьдесят"
+            in 80..89 -> "восемьдесят"
+            in 90..99 -> "девяносто"
+            else -> ""
+        }
+
+fun hundreds(n: Int): String =
+        when (n / 100 % 10) {
+            1 -> "сто"
+            2 -> "двести"
+            3 -> "триста"
+            4 -> "четыреста"
+            5 -> "пятьсот"
+            6 -> "шестьсот"
+            7 -> "семьсот"
+            8 -> "восемьсот"
+            9 -> "девятьсот"
+            else -> ""
+        }
+
+fun thousand(n: Int): String =
+        when {
+            n == 0 -> ""
+            ((n % 100 in 5..20) || (n % 10 > 4) || (n % 10 == 0)) -> "тысяч"
+            (n % 10) == 1 -> "тысяча"
+            else -> "тысячи"
+        }
+
 fun russian(n: Int): String {
     val listN: MutableList<String> = mutableListOf()
-    fun units(n: Int): String =
-            when (n % 10) {
-                3 -> "три"
-                4 -> "четыре"
-                5 -> "пять"
-                6 -> "шесть"
-                7 -> "семь"
-                8 -> "восемь"
-                9 -> "девять"
-                else -> ""
-            }
-
-    fun womans(n: Int): String =
-            when (n / 1000 % 10) {
-                1 -> ("одна")
-                2 -> ("две")
-                else -> ""
-            }
-
-    fun mans(n: Int): String =
-            when (n % 10) {
-                1 -> "один"
-                2 -> "два"
-                else -> ""
-            }
-
-
-    fun tens(n: Int): String =
-            when (n % 100) {
-                10 -> "десять"
-                11 -> "одиннадцать"
-                12 -> "двенадцать"
-                13 -> "тринадцать"
-                14 -> "четырнадцать"
-                15 -> "пятнадцать"
-                16 -> "шестнадцать"
-                17 -> "семнадцать"
-                18 -> "восемнадцать"
-                19 -> "девятнадцать"
-                in 20..29 -> "двадцать"
-                in 30..39 -> "тридцать"
-                in 40..49 -> "сорок"
-                in 50..59 -> "пятьдесят"
-                in 60..69 -> "шестьдесят"
-                in 70..79 -> "семьдесят"
-                in 80..89 -> "восемьдесят"
-                in 90..99 -> "девяносто"
-                else -> ""
-            }
-
-    fun hundreds(n: Int): String =
-            when (n / 100 % 10) {
-                1 -> "сто"
-                2 -> "двести"
-                3 -> "триста"
-                4 -> "четыреста"
-                5 -> "пятьсот"
-                6 -> "шестьсот"
-                7 -> "семьсот"
-                8 -> "восемьсот"
-                9 -> "девятьсот"
-                else -> ""
-            }
-
-    fun thousand(n: Int): String =
-            when {
-                n == 0 -> ""
-                ((n % 100 in 5..20) || (n % 10 > 4) || (n % 10 == 0)) -> "тысяч"
-                (n % 10) == 1 -> "тысяча"
-                else -> "тысячи"
-            }
 
     val h = n / 1000
     val d = n % 1000
@@ -379,3 +380,26 @@ fun russian(n: Int): String {
 
     return listN.filter { it != "" }.joinToString(separator = " ")
 }
+/**
+fun russian(n: Int): String {
+
+val listN: MutableList<String> = mutableListOf()
+
+val h = n / 1000
+val d = n % 1000
+
+listN.add(hundreds(h))
+listN.add(tens(h))
+if ((h % 100) !in 10..19) {
+listN.add(units(h))
+listN.add(womans(n))
+listN.add(thousand(h))
+listN.add(hundreds(d))
+listN.add(tens(d))
+if ((n % 100) !in 10..19) {
+listN.add(units(d))
+listN.add(mans(n))
+
+
+return listN.filter { it != "" }.joinToString(separator = " ")
+ */

@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import kotlin.math.max
+
 /**
  * Пример
  *
@@ -95,9 +97,14 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    val list = mutableMapOf<String, String>()
-    list.putAll(mapA)
-return mapA
+    val fullest = mutableMapOf<String, String>()
+    fullest.putAll(mapA + mapB)
+    for ((name, phone) in mapA) {
+        if (fullest[name] != phone) {
+            fullest[name] = "$phone, ${mapB[name]}"
+        }
+    }
+    return fullest
 }
 
 /**
@@ -110,7 +117,17 @@ return mapA
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
+    val list = mutableMapOf<Int, MutableList<String>>()
+    for ((name, mark) in grades) {
+        var temp = list[mark]
+        if (temp == null) temp = mutableListOf(name)
+        else temp.add(name)
+        list[mark] = temp
+    }
+    return list
+}
+
 
 /**
  * Простая
@@ -122,7 +139,12 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
+fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
+    val all = mutableMapOf<String, String>()
+    all.putAll(b)
+    all.putAll(a)
+    return (all == b)
+}
 
 /**
  * Средняя
@@ -275,5 +297,48 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
  *     mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)),
  *     450
  *   ) -> emptySet()
+ *вес сокровища, цена сокровища
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+
+
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+    if (treasures.isEmpty()) return setOf()
+    val list = mutableListOf<MutableList<Int>>()
+    val name = mutableMapOf<Int, String>()
+    val weight = mutableMapOf<Int, Int>()
+    val end = mutableSetOf<String>()
+
+    var n = 0
+
+    for ((key, value) in treasures) {
+        n++
+        name[n] = key
+        weight[n] = value.first
+    }
+    for (i in 0..treasures.size) {
+        list.add(mutableListOf())
+        for (j in 0..capacity) list[i].add(0)
+    }
+    n = 0
+    for ((_, pair) in treasures) {
+        n++
+        for (j in 1..capacity) {
+            if (pair.first > j) {
+                list[n][j] = list[n - 1][j]
+            } else {
+                list[n][j] = max(list[n - 1][j], list[n - 1][j - pair.first] + pair.second)
+            }
+        }
+    }
+
+    fun ans(size: Int, capacity: Int) {
+        if (size != 0 && capacity != 0) {
+            if (list[size - 1][capacity] == list[size][capacity]) ans(size - 1, capacity) else {
+                ans(size - 1, capacity - weight[size]!!)
+                end.add(name[size]!!)
+            }
+        }
+    }
+    ans(name.size, capacity)
+    return end
+}

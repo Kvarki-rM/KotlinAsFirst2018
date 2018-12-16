@@ -97,11 +97,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
+    val x = kingX == rookX2 || kingY == rookY2
     if (kingX == rookX1 || kingY == rookY1) {
-        return if (kingX == rookX2 || kingY == rookY2) 3
+        return if (x) 3
         else 1
     }
-    return if (kingX == rookX2 || kingY == rookY2) 2
+    return if (x) 2
     else 0
 }
 
@@ -118,11 +119,12 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
+    val x = abs(bishopX - kingX) == abs(bishopY - kingY)
     if (kingX == rookX || kingY == rookY) {
-        return if (abs(bishopX - kingX) == abs(bishopY - kingY)) 3
+        return if (x) 3
         else 1
     }
-    return if (abs(bishopX - kingX) == abs(bishopY - kingY)) 2
+    return if (x) 2
     else 0
 }
 
@@ -166,12 +168,13 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    val x = b in c..d
     if (a in c..d) {
-        if (b in c..d) return abs(a - b)
+        if (x) return abs(a - b)
         return if (b !in c..d) abs(a - d)
         else -1
     }
-    if (b in c..d) return abs(c - b)
+    if (x) return abs(c - b)
     return if (a < c && b > d) abs(c - d)
     else -1
 }
