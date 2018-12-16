@@ -376,7 +376,7 @@ fun russian(n: Int): String {
             listN.add(units(d))
             listN.add(mans(n))
         }
-    } else ""
+    }
 
     return listN.filter { it != "" }.joinToString(separator = " ")
 }
