@@ -80,7 +80,7 @@ fun dateStrToDigit(str: String): String {
     val list = str.split(" ")
     if (list.size == 3 && list[1] in months)
         if (daysInMonth(months.indexOf(list[1]) + 1, list[2].toInt()) >= list[0].toInt())
-            return String.format("%02d.%02d.%04d", list[0].toInt(), months.indexOf(list[1]) + 1, list[2].toInt())
+            return String.format("%02d.%02d.%01d", list[0].toInt(), months.indexOf(list[1]) + 1, list[2].toInt())
     return ""
 }
 
