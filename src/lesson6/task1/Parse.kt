@@ -146,7 +146,7 @@ fun bestHighJump(jumps: String): Int {
     for (i in 0 until list.size / 2) {
         if (list[i * 2].toIntOrNull() == null) return -1
         val condition = list[i * 2 + 1].split("")
-        for (j in 1 until condition.size - 1) {
+        for (j in 1..condition.size - 2) {
             if ((condition[j] == "%" || condition[j] == "-" || condition[j] == "+")) {
                 if (condition[j] == "+" && list[i * 2].toInt() > max) max = list[i * 2].toInt()
             } else return -1
@@ -168,16 +168,20 @@ fun bestHighJump(jumps: String): Int {
 fun plusMinus(expression: String): Int {
     if (expression == "") throw IllegalArgumentException()
     val list = expression.split(" ")
-    for (symbol in list[0]) if (!symbol.isDigit()) throw IllegalArgumentException()
+    if (list.size % 2 == 0) throw IllegalArgumentException()
 
-    if ((list.size % 2 == 0) || (list[0].toIntOrNull() == null)) throw IllegalArgumentException()
-
+    for (i in 0..list.size / 2) {
+        val temp = list[i * 2].split("")
+        for (j in 1 until temp.size - 1) {
+            if (temp[j].toIntOrNull() == null) throw IllegalArgumentException()
+        }
+    }
     var ans = list[0].toInt()
     for (i in 1..list.size / 2) {
-        if (list[i * 2 - 1].toIntOrNull() != null) throw IllegalArgumentException()
-        if (list[i * 2].toIntOrNull() == null) throw IllegalArgumentException()
-        for (symbol in list[i * 2]) if (!symbol.isDigit()) throw IllegalArgumentException()
-
+        val temp = list[i * 2 - 1].split("")
+        for (j in 1 until temp.size - 1) {
+            if (temp[j].toIntOrNull() != null) throw IllegalArgumentException()
+        }
         when {
             list[i * 2 - 1] == "+" -> ans += list[i * 2].toInt()
             list[i * 2 - 1] == "-" -> ans -= list[i * 2].toInt()
