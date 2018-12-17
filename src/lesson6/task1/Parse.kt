@@ -97,7 +97,7 @@ fun dateStrToDigit(str: String): String {
 fun dateDigitToStr(digital: String): String {
     val list = digital.split(".")
     if (list[1].toIntOrNull() != null && list.size == 3 && list[1].toInt() in 1..12)
-        if (daysInMonth(months.indexOf(list[1]) + 1, list[2].toInt()) >= list[0].toInt())
+        if (daysInMonth(list[1].toInt(), list[2].toInt()) >= list[0].toInt())
             return "${list[0].toInt()} ${months[list[1].toInt() - 1]} ${list[2].toInt()}"
     return ""
 }
