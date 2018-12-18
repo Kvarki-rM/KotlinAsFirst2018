@@ -61,14 +61,18 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     var temp = ""
 
     File(inputName).readText().forEach { elements ->
+
         map.forEach { (name, _) ->
-            name.forEach { zzz ->
-                if (!zzz.equals(elements, ignoreCase = true)) temp = "" else {
-                    temp += elements
-                    if (temp.equals(name, ignoreCase = true)) {
-                        map[name] = map[name]!! + 1
-                    }
+
+            name.forEach { part ->
+
+                if (!(temp + elements).equals((temp + part), ignoreCase = true)) temp = "" else {
+
+                    temp += part
+                    if (temp.equals(name, ignoreCase = true)) map[name] = map[name]!! + 1
+
                 }
+
             }
         }
     }
