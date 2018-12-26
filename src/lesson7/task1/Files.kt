@@ -78,7 +78,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
 
     var n: Int
     File(inputName).readLines().forEach { line ->
-        for (word in line.split(" ")) {
+        line.split(" ").forEach { word ->
             n = 0
             substrings.forEach { key ->
                 temp[n] += howManyTimes(key, substrings, word)
