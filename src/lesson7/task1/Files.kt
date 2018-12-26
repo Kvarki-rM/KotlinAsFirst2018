@@ -51,34 +51,48 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * На вход подаётся список строк substrings.
  * Вернуть ассоциативный массив с числом вхождений каждой из строк в текст.
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
- *
+ * (n).equals(it), ignoreCase = true))
+ * listN.filter { it != "" }.joinToString(separator = " ")
  */
 
+fun howManyTimes(key: String, substrings: List<String>, word: String): Int {
+    val temp = word.split("") as MutableList<String>
+    var used = ""
+    var min = 0
+    var n = 0
+
+    (min until temp.size).forEach { i ->
+        used += temp[i]
+        if (key.toLowerCase() in used.toLowerCase()) {
+            min += (key.length + i)
+            n++
+            used = ""
+        }
+    }
+    return n
+}
 
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
     val map = mutableMapOf<String, Int>()
-    for (i in 0 until substrings.size) map[substrings[i]] = 0
-    var temp = ""
+    val temp = mutableListOf<Int>()
+    var n: Int
 
-    File(inputName).readText().forEach { elements ->
+    for (i in 1..substrings.size) temp.add(0)
 
-        map.forEach { (name, _) ->
-
-            name.forEach { part ->
-
-                if (!(temp + elements).equals((temp + part), ignoreCase = true)) temp = "" else {
-
-                    temp += part
-                    if (temp.equals(name, ignoreCase = true)) map[name] = map[name]!! + 1
-
-                }
-
+    File(inputName).readLines().forEach { line ->
+        for (word in line.split(" ")) {
+            n = 0
+            substrings.forEach { key ->
+                temp[n] += howManyTimes(key, substrings, word)
+                n++
             }
         }
     }
+
+    for (i in 0 until temp.size)
+        map[substrings[i]] = temp[i]
     return map
 }
-
 
 /**
  * Средняя

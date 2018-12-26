@@ -277,32 +277,6 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun units(n: Int): String =
-        when (n % 10) {
-            3 -> "три"
-            4 -> "четыре"
-            5 -> "пять"
-            6 -> "шесть"
-            7 -> "семь"
-            8 -> "восемь"
-            9 -> "девять"
-            else -> ""
-        }
-
-fun womans(n: Int): String =
-        when (n / 1000 % 10) {
-            1 -> ("одна")
-            2 -> ("две")
-            else -> ""
-        }
-
-fun mans(n: Int): String =
-        when (n % 10) {
-            1 -> "один"
-            2 -> "два"
-            else -> ""
-        }
-
 
 fun tens(n: Int): String =
         when (n % 100) {
@@ -327,20 +301,6 @@ fun tens(n: Int): String =
             else -> ""
         }
 
-fun hundreds(n: Int): String =
-        when (n / 100 % 10) {
-            1 -> "сто"
-            2 -> "двести"
-            3 -> "триста"
-            4 -> "четыреста"
-            5 -> "пятьсот"
-            6 -> "шестьсот"
-            7 -> "семьсот"
-            8 -> "восемьсот"
-            9 -> "девятьсот"
-            else -> ""
-        }
-
 fun thousand(n: Int): String =
         when {
             n == 0 -> ""
@@ -349,57 +309,69 @@ fun thousand(n: Int): String =
             else -> "тысячи"
         }
 
+val units = listOf("", "", "", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+val notmen = listOf("", "одна", "две")
+val men = listOf("", "один", "два")
+val hundreds = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+
 fun russian(n: Int): String {
     val listN: MutableList<String> = mutableListOf()
 
     val h = n / 1000
     val d = n % 1000
 
-    if (n > 1000) {
-        listN.add(hundreds(h))
-        listN.add(tens(h))
-        if ((h % 100) !in 10..19) {
-            listN.add(units(h))
-            listN.add(womans(n))
-        }
-        listN.add(thousand(h))
-        listN.add(hundreds(d))
-        listN.add(tens(d))
-        if ((n % 100) !in 10..19) {
-            listN.add(units(d))
-            listN.add(mans(n))
-        }
-    } else if (n < 1000) {
-        listN.add(hundreds(d))
-        listN.add(tens(d))
-        if ((n % 100) !in 10..19) {
-            listN.add(units(d))
-            listN.add(mans(n))
-        }
+    listN.add(hundreds[h / 100 % 10])
+    listN.add(tens(h))
+    if ((h % 100) !in 10..19) {
+        listN.add(units[h % 10])
+        if ((h % 10) < 3)
+            listN.add(notmen[h % 10])
     }
+    listN.add(thousand(h))
+    listN.add(hundreds[d / 100 % 10])
+    listN.add(tens(d))
+    if ((d % 100) !in 10..19) {
+        listN.add(units[d % 10])
+        if ((d % 10) < 3)
+            listN.add(men[d % 10])
+    }
+
 
     return listN.filter { it != "" }.joinToString(separator = " ")
 }
+
 /**
 fun russian(n: Int): String {
-
 val listN: MutableList<String> = mutableListOf()
 
 val h = n / 1000
 val d = n % 1000
 
-listN.add(hundreds(h))
+if (n > 1000) {
+listN.add(hundreds[h / 100 % 10])
 listN.add(tens(h))
 if ((h % 100) !in 10..19) {
-listN.add(units(h))
-listN.add(womans(n))
+listN.add(units[h % 10])
+if ((n % 10) < 3)
+listN.add(notmen[h % 10])
+}
 listN.add(thousand(h))
-listN.add(hundreds(d))
+listN.add(hundreds[d / 100 % 10])
 listN.add(tens(d))
 if ((n % 100) !in 10..19) {
-listN.add(units(d))
-listN.add(mans(n))
-
+listN.add(units[d % 10])
+if ((n % 10) < 3)
+listN.add(men[n % 10])
+}
+} else if (n < 1000) {
+listN.add(hundreds[d / 100 % 10])
+listN.add(tens(d))
+if ((n % 100) !in 10..19) {
+listN.add(units[d % 10])
+if ((n % 10) < 3)
+listN.add(men[n % 10])
+}
+}
 
 return listN.filter { it != "" }.joinToString(separator = " ")
- */
+}*/

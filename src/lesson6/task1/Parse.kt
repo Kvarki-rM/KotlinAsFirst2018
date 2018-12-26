@@ -3,7 +3,6 @@
 package lesson6.task1
 
 import lesson2.task2.daysInMonth
-import kotlin.IllegalArgumentException
 
 
 /**
@@ -73,14 +72,14 @@ fun main(args: Array<String>) {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября",
+val months = listOf("", "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября",
         "октября", "ноября", "декабря")
 
 fun dateStrToDigit(str: String): String {
     val list = str.split(" ")
     if (list.size == 3 && list[1] in months)
-        if (daysInMonth(months.indexOf(list[1]) + 1, list[2].toInt()) >= list[0].toInt())
-            return String.format("%02d.%02d.%01d", list[0].toInt(), months.indexOf(list[1]) + 1, list[2].toInt())
+        if (daysInMonth(months.indexOf(list[1]), list[2].toInt()) >= list[0].toInt())
+            return String.format("%02d.%02d.%01d", list[0].toInt(), months.indexOf(list[1]), list[2].toInt())
     return ""
 }
 
@@ -98,7 +97,7 @@ fun dateDigitToStr(digital: String): String {
     val list = digital.split(".")
     if (list[1].toIntOrNull() != null && list.size == 3 && list[1].toInt() in 1..12)
         if (daysInMonth(list[1].toInt(), list[2].toInt()) >= list[0].toInt())
-            return "${list[0].toInt()} ${months[list[1].toInt() - 1]} ${list[2].toInt()}"
+            return "${list[0].toInt()} ${months[list[1].toInt()]} ${list[2].toInt()}"
     return ""
 }
 

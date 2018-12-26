@@ -214,7 +214,7 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun square(x: Int, y: Int): Int {
+fun degreeInInt(x: Int, y: Int): Int {
     var multiplier = x
     if (y == 0) return 1
     for (i in 1..(y - 1)) {
@@ -230,10 +230,10 @@ fun squareSequenceDigit(n: Int): Int {
     var result = 0
 
     while (count != n) {
-        val actualSQR = square(step, 2)
+        val actualSQR = degreeInInt(step, 2)
         val length = digitNumber(actualSQR)
         if (n - count <= length) {
-            result = actualSQR / square(10, ((length - n + count))) % 10
+            result = actualSQR / degreeInInt(10, ((length - n + count))) % 10
             break
         } else {
             count += length
@@ -268,7 +268,7 @@ fun fibSequenceDigit(n: Int): Int {
         val actualNum = fib(step)
         val length = digitNumber(actualNum)
         if (n - count <= length) {
-            result = actualNum / square(10, (length - n + count)) % 10
+            result = actualNum / degreeInInt(10, (length - n + count)) % 10
             break
         } else {
             count += length
