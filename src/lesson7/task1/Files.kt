@@ -73,12 +73,10 @@ fun howManyTimes(key: String, substrings: List<String>, word: String): Int {
 }
 
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    val map = mutableMapOf<String, Int>()
     val temp = mutableListOf<Int>()
-    var n: Int
-
     for (i in 1..substrings.size) temp.add(0)
 
+    var n: Int
     File(inputName).readLines().forEach { line ->
         for (word in line.split(" ")) {
             n = 0
@@ -89,8 +87,9 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
         }
     }
 
-    for (i in 0 until temp.size)
-        map[substrings[i]] = temp[i]
+    val map = mutableMapOf<String, Int>()
+    for (i in 0 until temp.size) map[substrings[i]] = temp[i]
+
     return map
 }
 
