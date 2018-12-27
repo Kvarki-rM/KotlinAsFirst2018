@@ -55,15 +55,15 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * listN.filter { it != "" }.joinToString(separator = " ")
  */
 
-fun howManyTimes(key: String, substrings: List<String>, word: String): Int {
-    val temp = word.split("") as MutableList<String>
+fun howManyTimes(key: String, word: String): Int {
+    val temp = word.toMutableList()
     var used = ""
     var min = 0
     var n = 0
 
-    (min until temp.size).forEach { i ->
+    for (i in min until temp.size) {
         used += temp[i]
-        if (key.toLowerCase() in used.toLowerCase()) {
+        if (key in used) {
             min += (key.length + i)
             n++
             used = ""
@@ -73,25 +73,22 @@ fun howManyTimes(key: String, substrings: List<String>, word: String): Int {
 }
 
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    val temp = mutableListOf<Int>()
-    for (i in 1..substrings.size) temp.add(0)
-
+    val map = mutableMapOf<String, Int>()
+//    for (i in 0 until substrings.size) map[substrings[i]] = 0
     var n: Int
+
     File(inputName).readLines().forEach { line ->
         line.split(" ").forEach { word ->
             n = 0
             substrings.forEach { key ->
-                temp[n] += howManyTimes(key, substrings, word)
+                map[substrings[n]] = map.getOrDefault(substrings[n], 0) + howManyTimes(key.toLowerCase(), word.toLowerCase())
                 n++
             }
         }
     }
-
-    val map = mutableMapOf<String, Int>()
-    for (i in 0 until temp.size) map[substrings[i]] = temp[i]
-
     return map
 }
+
 
 /**
  * Средняя
