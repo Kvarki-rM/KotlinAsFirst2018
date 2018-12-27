@@ -64,7 +64,7 @@ fun howManyTimes(key: String, word: String): Int {
     for (i in min until temp.size) {
         used += temp[i]
         if (key in used) {
-            min += (key.length + 1)
+            min +=  (i + 1)
             n++
             used = ""
         }
