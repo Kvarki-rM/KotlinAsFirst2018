@@ -55,16 +55,16 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * listN.filter { it != "" }.joinToString(separator = " ")
  */
 
-fun howManyTimes(key: String, word: String): Int {
+fun String.howManyTimes(word: String): Int {
     val temp = word.toMutableList()
     var used = ""
     var min = 0
     var n = 0
 
-    for (i in min until temp.size) {
+    (min until temp.size).forEach { i ->
         used += temp[i]
-        if (key in used) {
-            min +=  (i - key.length + 1)
+        if (this in used) {
+            min += (i - length + 1)
             n++
             used = ""
         }
@@ -74,14 +74,13 @@ fun howManyTimes(key: String, word: String): Int {
 
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
     val map = mutableMapOf<String, Int>()
-//    for (i in 0 until substrings.size) map[substrings[i]] = 0
     var n: Int
 
     File(inputName).readLines().forEach { line ->
-        line.split(" ").forEach { word ->
+        line.split(" ").forEach {
             n = 0
             substrings.forEach { key ->
-                map[substrings[n]] = map.getOrDefault(substrings[n], 0) + howManyTimes(key.toLowerCase(), word.toLowerCase())
+                map[substrings[n]] = map.getOrDefault(substrings[n], 0) + key.toLowerCase().howManyTimes(it.toLowerCase())
                 n++
             }
         }
